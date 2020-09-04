@@ -1,5 +1,5 @@
 from selenium import webdriver
-# import time
+import time
 # from selenium.webdriver.support.ui import Select
 
 
@@ -7,12 +7,17 @@ driver = webdriver.Chrome()
 
 ####################    Using Selenium on sample form    #############################
 
-# driver.get('https://www.rahulshettyacademy.com/angularpractice/')
+driver.get('https://www.rahulshettyacademy.com/angularpractice/')
 
 # print(driver.title)
 # print(driver.current_url)
 
 # driver.find_element_by_css_selector('input[name="name"]').send_keys("Walter White")         # Filling textboxi.e name
+
+# print(driver.find_element_by_css_selector('input[name="name"]').get_attribute("value"))
+
+# print(driver.execute_script('return document.getElementsByName("name")[0].value'))          # Using javascript in selenium
+
 
 # driver.find_element_by_xpath('//input[@name="email"]').send_keys("callmefor@meth.com")      # Filling email
 
@@ -33,8 +38,17 @@ driver = webdriver.Chrome()
 # data = driver.find_element_by_class_name('alert-success').text                              # storing success message
 # assert 'success' in data
 
-# driver.close()
+### Scrolling page using javascript ###
+# driver.execute_script("window.scrollTo(0,document.body.scrollHeight);")
 
+
+height = int(driver.execute_script('return document.body.scrollHeight;'))                        # getting page height
+
+for i in range(1,height,5):
+    driver.execute_script("window.scrollTo(0, {});".format(i))
+
+
+# driver.close()
 
 ####################    Using Selenium on Salesforce login form     #############################
 
@@ -87,26 +101,41 @@ driver = webdriver.Chrome()
 
 ######################################################################################################
 
-driver.get('https://rahulshettyacademy.com/AutomationPractice/')
+# driver.get('https://rahulshettyacademy.com/AutomationPractice/')
 
-chechboxes = driver.find_elements_by_xpath('//input[@type="checkbox"]')
+# chechboxes = driver.find_elements_by_xpath('//input[@type="checkbox"]')
+#
+# option = ['option1','option2']
+#
+# def isPresent(value):
+#     for opt in option:
+#         if opt == value:
+#             return True
+#     return False
 
-option = ['option1','option2']
+## selecting multiple chechboxes
 
-def isPresent(value):
-    for opt in option:
-        if opt == value:
-            return True
-    return False
-
-for checkbox in chechboxes:
-    if isPresent(checkbox.get_attribute("value")):
-        checkbox.click()
-        assert checkbox.is_selected()
+# for checkbox in chechboxes:
+#     if isPresent(checkbox.get_attribute("value")):
+#         checkbox.click()
+#         assert checkbox.is_selected()
 
 
-
+## getting labels of chechboxes
 
 # label = driver.find_elements_by_css_selector('div[id="checkbox-example"] label')
 # for l in label:
 #     print(l.text)
+
+
+###### Working with javascript alert popups
+# text = 'Option2'
+# driver.find_element_by_css_selector('#name').send_keys(text)
+#
+# driver.find_element_by_css_selector('#alertbtn').click()
+#
+# alert = driver.switch_to.alert
+# alertText = alert.text
+# assert text in alertText
+#
+# alert.accept()
